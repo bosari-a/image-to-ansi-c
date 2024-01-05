@@ -32,20 +32,20 @@ You may also find it useful to redirect the HTML output into an html file. For e
 ## Example results
 
 <div style="display:flex;gap:10px;padding:5px">
-<img style="width:250px" src="./assets/kirby_ansi.png">
-<img style="width:250px" src="./assets/kirby.png">
+<img style="width:250px" src="https://github.com/bosari-a/image-to-ansi-c/assets/kirby_ansi.png">
+<img style="width:250px" src="https://github.com/bosari-a/image-to-ansi-c/assets/kirby.png">
 </div>
 
 
 <div style="display:flex;gap:10px;padding:5px">
-<img style="width:250px" src="./assets/eg_bocchi_ansi.png">
-<img style="width:250px" src="./assets/bocchi.png">
+<img style="width:250px" src="https://github.com/bosari-a/image-to-ansi-c/assets/eg_bocchi_ansi.png">
+<img style="width:250px" src="https://github.com/bosari-a/image-to-ansi-c/assets/bocchi.png">
 </div>
 
 
 <div style="display:flex;gap:10px;padding:5px">
-<img style="width:250px" src="./assets/flag_ansi.png">
-<img style="width:250px" src="./assets/FLAG_B24.BMP">
+<img style="width:250px" src="https://github.com/bosari-a/image-to-ansi-c/assets/flag_ansi.png">
+<img style="width:250px" src="https://github.com/bosari-a/image-to-ansi-c/assets/FLAG_B24.BMP">
 </div>
 
 ## Process explanation
@@ -87,7 +87,7 @@ No libraries were used to parse the BMP file. All the parsing code and code in `
 
     I noticed that the padding was just `width (pixels) % 4`.
 
-    Hee is a proof outline that `w(pixels) % 4` is the padding:
+    Hee is a proof outline that `w(pixels) % 4` is the padding for 24 bit RGB truecolor BMP files:
     ```
     a = b mod n (or a = b % n)
     implies that -> a - b = k * n
@@ -111,7 +111,9 @@ No libraries were used to parse the BMP file. All the parsing code and code in `
     Recall wb = 3 * wp (in 24 bit images, 1 pixel is 3 bytes)
     -> LHS: (3 * wb + k * 4 + wb) % 4 = RHS: 0
     -> LHS: (4 * wb + k * 4) % 4 = RHS: 0
-    The final result is quite trivial.
+    Both wb and k are integers. Thus, taking 4 as common you get:
+    -> LHS [4 * (wb + k)] % 4 = RHS: 0
+    Obviously, the result in the square brackets is divisible by 4.
     Thus LHS = RHS. ◼
     ```
 
