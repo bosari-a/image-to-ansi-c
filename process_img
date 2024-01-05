@@ -1,0 +1,44 @@
+#!/bin/bash
+
+if [ ! "$1" ]
+then
+    echo "Incorrect usage, missing image path"
+    exit 1
+elif [ ! $2 ]
+then
+    echo "Incorrect usage, missing size argument"
+    exit 1
+fi
+
+# function to handle exit code
+check_exit_code(){
+    if [ $? -ne 0 ]
+    then
+        echo "$1"
+        exit 1
+    else
+        echo "$2"
+        exit
+    fi
+}
+
+# function to check imagemagick installation
+
+check_convert(){
+    if ! command -v convert
+    then
+        echo "installing imagemagick..."
+        sudo apt install -y imagemagick
+        check_exit_code "an error has occurred while installing imagemagick" "successful installation"
+    fi
+}
+
+# function to convert and resize image to BMP3 file
+
+to_resized_bmp(){
+    check_convert
+    convert "$1" -type truecolor -resize $2 BMP3:"./toansi.bmp"
+    check_exit_code "an error occurred while converting to BMP3" "Successfully created BMP3 file"
+}
+
+to_resized_bmp "$1" $2
