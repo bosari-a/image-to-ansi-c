@@ -82,6 +82,57 @@ int main(int argc, char *argv[])
 
     int32_t w = bi->width;
 
+    typedef struct
+    {
+        RGB rgb[w];
+    } __attribute__((__packed__))
+    ROW;
+
+    ROW img[h];
+    for (int32_t i = 0; i < h; i++)
+    {
+        ROW row;
+        fread(&row, sizeof(RGB), w, fp);
+        img[i] = row;
+
+        /**
+         * Each scan line is zero padded to the nearest 4-byte
+         * boundary. If the image has a width that is not divisible
+         * by four, say, 21 bytes, there would be 3 bytes of padding
+         * at the end of every scan line.
+         * (From BMP spec)
+         */
+        fseek(fp, w % 4, SEEK_CUR);
+    }
+    // Scan lines are stored bottom to top instead of top to bottom (BMP spec).
+    for (int32_t i = h - 1; i > 0; i--)
+    {
+        if (strcmp(argv[2], "html") == 0)
+        {
+            printf("<div class=\"char-container\">");
+        }
+        for (int32_t j = 0; j < w; j++)
+        {
+            if (strcmp(argv[2], "ansii"))
+            {
+                printf("\x1b[38;2;%d;%d;%dm%%\x1b[0m", img[i].rgb[j].red, img[i].rgb[j].green, img[i].rgb[j].blue);
+            }
+            else
+            {
+                printf("<span style=\"color:rgba(%d,%d,%d)\">\u25fc</span>", img[i].rgb[j].red, img[i].rgb[j].green, img[i].rgb[j].blue);
+            }
+        }
+        if (strcmp(argv[2], "ansii"))
+        {
+            printf("\n");
+        }
+        else
+        {
+            printf("</div>");
+        }
+    }
+
     free(bf);
     free(bi);
+    fclose(fp);
 }
