@@ -82,39 +82,42 @@ No libraries were used to parse the BMP file. All the parsing code and code in `
     | .              | .               |
     | .              | .               |
     | .              | .               |
-    | `w`            | `w % 4`         |
+    | `w`            |`(4 - ((wp * 3) % 4)) % 4`|
 
 
-    I noticed that the padding was just `width (pixels) % 4`.
-
-    Hee is a proof outline that `w(pixels) % 4` is the padding for 24 bit RGB truecolor BMP files:
+    I came to the conclusion that the padding in the rows of a 24 bit truecolor BMP file according to the spec was given by:
     ```
-    a = b mod n (or a = b % n)
-    implies that -> a - b = k * n
+    (4 - ((wp * 3) % 4)) % 4
+    ```
+
+    Here is an explanation. According to the BMP specification, a row would be padded if the width (in bytes) was not divisible by 4.
+    I.e.: "If the image has a width that is not divisible by four, say, 21 bytes, there would be 3 bytes of padding at the end of every scan line." - [Reference.](https://www.ece.ualberta.ca/~elliott/ee552/studentAppNotes/2003_w/misc/bmp_file_format/bmp_file_format.htm)
+    
+    Consider:
+    ```
     let wp = width in pixels
     let wb = width in bytes
     let pb = padding in bytes
 
-    I will prove the following statement:
-    wp % 4 + wb is divisible by 4
-    i.e. (wp % 4 + wb) % 4 = 0
-    i.e. the padding (bytes) + width (bytes) is divisible by 4 (it needs to be according to the BMP spec). I just have to show that (wp % 4) is actually the padding.
+    Consider any positive integer n. Then the following statements are true:
+    n % 4 = r (some remainder).
+    (n - r) % 4 = 0
+    In spoken terms: any number minus its remainder that you get from dividing the number by 4 would result in something divisible by 4. E.g: 
+    15 % 4 = 3 (same as 15 - 3 * 4 = 3)
+    15 - 3 = 12 which is divisible by 4.
 
-    proof:
+    Now padding (in bytes) is *added* to a row in the BMP image. So we need to flip around: instead of subtracting to get something divisible by 4 as we did above we need to add something to n to get something divisible by 4. And that is really simple. It's just 4 minus the remainder. E.g (continuing above 15 % 4):
+    4 - 3 = 1 (i.e. 4 - remainder of 15/4 is 1)
+    1 + 15 = 16 which is divisible by  4 and would be appropriate padding for a BMP with 15 bytes width.
 
-    let a = wp % 4
-    -> a - wp = k * 4
-    -> a = wp + k * 4
-    substitute above in (wp % 4 + wb) % 4 = 0
-    -> LHS: (wp + k * 4 + wb) % 4 = RHS: 0
-    Now we need to prove LHS = RHS
-    Recall wb = 3 * wp (in 24 bit images, 1 pixel is 3 bytes)
-    -> LHS: (3 * wb + k * 4 + wb) % 4 = RHS: 0
-    -> LHS: (4 * wb + k * 4) % 4 = RHS: 0
-    Both wb and k are integers. Thus, taking 4 as common you get:
-    -> LHS [4 * (wb + k)] % 4 = RHS: 0
-    Obviously, the result in the square brackets is divisible by 4.
-    Thus LHS = RHS. ◼
+    So:
+    (4 - ((wp * 3) % 4)) is the padding (where wp * 3 is the width in bytes: wb = wp * 3). 
+    
+    But, there is a small problem. The values from the above formula are always between 0 and 4 (inclusive). For the case when the remainder (wb % 4) is 0 you will find out that the result is 4. This is nonesensical as you don't need padding when the width (in bytes) is divisible by 4 according to the BMP specification. So the formula becomes:
+
+    pb = (4 - ((wp * 3) % 4)) % 4
+
+    This extra % 4 eliminates the case when pb = 4 since 4 % 4 is 0.
     ```
 
 - I would also like to make the installation section easier in the future by adding a setup script that installs everything from github.

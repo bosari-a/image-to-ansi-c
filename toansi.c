@@ -102,7 +102,7 @@ int main(int argc, char *argv[])
          * at the end of every scan line.
          * (From BMP spec)
          */
-        fseek(fp, w % 4, SEEK_CUR);
+        fseek(fp, (4 - ((w * 3) % 4)) % 4, SEEK_CUR);
     }
     // Scan lines are stored bottom to top instead of top to bottom (BMP spec).
     for (int32_t i = h - 1; i > 0; i--)
