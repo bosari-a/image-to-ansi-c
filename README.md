@@ -85,6 +85,34 @@ No libraries were used to parse the BMP file. All the parsing code and code in `
     | `w`            | `w % 4`         |
 
 
-    I noticed that the padding was just `width (pixels) % 4`. I do not have a proof that this pattern will continue, I am sure the proof is simple but for some reason I can't see it. I spent quite a while on this even though I spotted the pattern quickly.
+    I noticed that the padding was just `width (pixels) % 4`.
+
+    Hee is a proof outline that `w(pixels) % 4` is the padding:
+    ```
+    a = b mod n (or a = b % n)
+    implies that -> a - b = k * n
+    let wp = width in pixels
+    let wb = width in bytes
+    let pb = padding in bytes
+
+    I will prove the following statement:
+    wp % 4 + wb is divisible by 4
+    i.e. (wp % 4 + wb) % 4 = 0
+    i.e. the padding (bytes) + width (bytes) is divisible by 4 (it needs to be according to the BMP spec). I just have to show that (wp % 4) is actually the padding.
+
+    proof:
+
+    let a = wp % 4
+    -> a - wp = k * 4
+    -> a = wp + k * 4
+    substitute above in (wp % 4 + wb) % 4 = 0
+    -> LHS: (wp + k * 4 + wb) % 4 = RHS: 0
+    Now we need to prove LHS = RHS
+    Recall wb = 3 * wp (in 24 bit images, 1 pixel is 3 bytes)
+    -> LHS: (3 * wb + k * 4 + wb) % 4 = RHS: 0
+    -> LHS: (4 * wb + k * 4) % 4 = RHS: 0
+    The final result is quite trivial.
+    Thus LHS = RHS. ◼
+    ```
 
 - I would also like to make the installation section easier in the future by adding a setup script that installs everything from github.
