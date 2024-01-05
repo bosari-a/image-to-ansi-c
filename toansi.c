@@ -141,6 +141,7 @@ int main(int argc, char *argv[])
     free(bi);
     fclose(fp);
 
+    // remove bmp file created during process
     int stat = remove(BMP_IMG);
     if (stat != 0)
     {
