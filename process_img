@@ -37,8 +37,8 @@ check_convert(){
 
 to_resized_bmp(){
     check_convert
-    convert "$1" -type truecolor -resize $2 BMP3:"./toansi.bmp"
+    convert "$1" -type truecolor -resize "$2" BMP3:"$3"
     check_exit_code "an error occurred while converting to BMP3" "Successfully created BMP3 file"
 }
 
-to_resized_bmp "$1" $2
+to_resized_bmp "$1" "$2" "$3"

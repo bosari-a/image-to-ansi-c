@@ -11,7 +11,7 @@
 // resize image in argument
 #define RESIZE 35
 // path to resized image
-#define BMP_IMG "./toansi.bmp"
+#define BMP_IMG "./tmp.bmp"
 
 int main(int argc, char *argv[])
 {
@@ -22,18 +22,18 @@ int main(int argc, char *argv[])
      */
 
     // check correct usage
-    if (argc != 3 || (strcmp(argv[2], "ansii") != 0 && strcmp(argv[2], "html") != 0))
+    if (argc != 3 || (strcmp(argv[2], "ansi") != 0 && strcmp(argv[2], "html") != 0))
     {
         printf(RED "Incorrect usage\n" RESET);
         printf(YELLOW "Usage: " RESET "toansi {path/to/image} option\n");
-        printf(BLUE "\tExample: toansi" GREEN " ./img.png " YELLOW "ansii\n" RESET);
-        printf("Available options: " YELLOW "[ansii] [html]\n" RESET);
+        printf(BLUE "\tExample: toansi" GREEN " ./img.png " YELLOW "ansi\n" RESET);
+        printf("Available options: " YELLOW "[ansi] [html]\n" RESET);
         exit(1);
     }
 
     // create bmp conversion command
     char *to_bmp = calloc(1024, 1);
-    sprintf(to_bmp, "bash ./process_img %s %i", argv[1], RESIZE);
+    sprintf(to_bmp, "process_img %s %i %s", argv[1], RESIZE, BMP_IMG);
     // call command
     system(to_bmp);
     // free command
@@ -117,16 +117,17 @@ int main(int argc, char *argv[])
         }
         for (int32_t j = 0; j < w; j++)
         {
-            if (strcmp(argv[2], "ansii") == 0)
+            if (strcmp(argv[2], "ansi") == 0)
             {
-                printf("\x1b[38;2;%d;%d;%dm%%\x1b[0m", img[i].rgb[j].red, img[i].rgb[j].green, img[i].rgb[j].blue);
+                // ansi code spec: \x1b[38;2;r;g;bm - where r -> red, g -> green, b -> blue
+                printf("\x1b[38;2;%d;%d;%dm%%" RESET, img[i].rgb[j].red, img[i].rgb[j].green, img[i].rgb[j].blue);
             }
             else
             {
                 printf("<span style=\"color:rgba(%d,%d,%d)\">\u25fc</span>", img[i].rgb[j].red, img[i].rgb[j].green, img[i].rgb[j].blue);
             }
         }
-        if (strcmp(argv[2], "ansii") == 0)
+        if (strcmp(argv[2], "ansi") == 0)
         {
             printf("\n");
         }
@@ -139,4 +140,11 @@ int main(int argc, char *argv[])
     free(bf);
     free(bi);
     fclose(fp);
+
+    int stat = remove(BMP_IMG);
+    if (stat != 0)
+    {
+        printf("failed to remove " BMP_IMG " file created during process.\n");
+        exit(4);
+    }
 }
