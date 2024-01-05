@@ -1,0 +1,3 @@
+#!/bin/bash
+
+valgrind --leak-check=full ./toansi.out $1 $2

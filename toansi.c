@@ -9,7 +9,7 @@
 #define YELLOW "\x1b[33m"
 #define RESET "\x1b[0m"
 // resize image in argument
-#define RESIZE 24
+#define RESIZE 35
 // path to resized image
 #define BMP_IMG "./toansi.bmp"
 
@@ -111,9 +111,13 @@ int main(int argc, char *argv[])
         {
             printf("<div class=\"char-container\">");
         }
+        else
+        {
+            printf("\t");
+        }
         for (int32_t j = 0; j < w; j++)
         {
-            if (strcmp(argv[2], "ansii"))
+            if (strcmp(argv[2], "ansii") == 0)
             {
                 printf("\x1b[38;2;%d;%d;%dm%%\x1b[0m", img[i].rgb[j].red, img[i].rgb[j].green, img[i].rgb[j].blue);
             }
@@ -122,7 +126,7 @@ int main(int argc, char *argv[])
                 printf("<span style=\"color:rgba(%d,%d,%d)\">\u25fc</span>", img[i].rgb[j].red, img[i].rgb[j].green, img[i].rgb[j].blue);
             }
         }
-        if (strcmp(argv[2], "ansii"))
+        if (strcmp(argv[2], "ansii") == 0)
         {
             printf("\n");
         }
