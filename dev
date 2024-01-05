@@ -1,4 +1,3 @@
 #!/bin/bash
 
 gcc toansi.c -o toansi.out
-
