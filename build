@@ -1,5 +1,0 @@
-#!/bin/bash
-
-gcc toansi.c -o toansi
-
-sudo mv toansi /usr/local/bin/
