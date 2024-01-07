@@ -120,4 +120,3 @@ No libraries were used to parse the BMP file. All the parsing code and code in `
     This extra % 4 eliminates the case when pb = 4 since 4 % 4 is 0.
     ```
 
-- I would also like to make the installation section easier in the future by adding a setup script that installs everything from github.
