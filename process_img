@@ -37,6 +37,11 @@ check_convert(){
 
 to_resized_bmp(){
     check_convert
+    if file "$1" | grep -E -i "gif"
+    then
+        convert "$1"[0] -type truecolor -resize "$2" BMP3:"$3"
+        check_exit_code "an error occurred while converting to BMP3" "Successfully created BMP3 file"
+    do
     convert "$1" -type truecolor -resize "$2" BMP3:"$3"
     check_exit_code "an error occurred while converting to BMP3" "Successfully created BMP3 file"
 }
