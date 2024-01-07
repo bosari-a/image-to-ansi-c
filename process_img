@@ -41,7 +41,7 @@ to_resized_bmp(){
     then
         convert "$1"[0] -type truecolor -resize "$2" BMP3:"$3"
         check_exit_code "an error occurred while converting to BMP3" "Successfully created BMP3 file"
-    do
+    fi
     convert "$1" -type truecolor -resize "$2" BMP3:"$3"
     check_exit_code "an error occurred while converting to BMP3" "Successfully created BMP3 file"
 }
