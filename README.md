@@ -32,20 +32,20 @@ You may also find it useful to redirect the HTML output into an html file. For e
 ## Example results
 
 <div style="display:flex;gap:10px;padding:5px">
-<img style="width:250px" src="https://github.com/bosari-a/image-to-ansi-c/assets/kirby_ansi.png">
-<img style="width:250px" src="https://github.com/bosari-a/image-to-ansi-c/assets/kirby.png">
+<img style="width:250px" src="https://raw.githubusercontent.com/bosari-a/image-to-ansi-c/main/assets/kirby_ansi.png">
+<img style="width:250px" src="https://raw.githubusercontent.com/bosari-a/image-to-ansi-c/main/assets/kirby.png">
 </div>
 
 
 <div style="display:flex;gap:10px;padding:5px">
-<img style="width:250px" src="https://github.com/bosari-a/image-to-ansi-c/assets/eg_bocchi_ansi.png">
-<img style="width:250px" src="https://github.com/bosari-a/image-to-ansi-c/assets/bocchi.png">
+<img style="width:250px" src="https://raw.githubusercontent.com/bosari-a/image-to-ansi-c/main/assets/eg_bocchi_ansi.png">
+<img style="width:250px" src="https://raw.githubusercontent.com/bosari-a/image-to-ansi-c/main/assets/bocchi.png">
 </div>
 
 
 <div style="display:flex;gap:10px;padding:5px">
-<img style="width:250px" src="https://github.com/bosari-a/image-to-ansi-c/assets/flag_ansi.png">
-<img style="width:250px" src="https://github.com/bosari-a/image-to-ansi-c/assets/FLAG_B24.BMP">
+<img style="width:250px" src="https://raw.githubusercontent.com/bosari-a/image-to-ansi-c/main/assets/flag_ansi.png">
+<img style="width:250px" src="https://raw.githubusercontent.com/bosari-a/image-to-ansi-c/main/assets/FLAG_B24.BMP">
 </div>
 
 ## Process explanation
